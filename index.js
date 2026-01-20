@@ -67,8 +67,12 @@ async function main() {
 
     // Salva em arquivo
     const fs = await import('fs/promises');
+    
+    // Cria diretório resumos se não existir
+    await fs.mkdir('resumos', { recursive: true });
+    
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `resumo-${timestamp}.txt`;
+    const filename = `resumos/resumo-${timestamp}.txt`;
     
     const fileContent = `
 RESUMO DE EMAILS - ${new Date().toLocaleString('pt-BR')}

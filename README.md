@@ -6,11 +6,13 @@ Agente inteligente que lê seus emails de newsletters e notícias e gera resumos
 
 - ✅ Conecta com Gmail API para buscar emails específicos
 - ✅ Filtra emails por remetente
-- ✅ Resume emails usando Gemini AI
+- ✅ Resume emails usando Gemini 1.5 AI (Flash ou Pro)
 - ✅ Gera resumo consolidado de múltiplos emails
 - ✅ Salva resumos em arquivos
 - ✅ Execução agendada diária com node-cron
 - ✅ Suporte a múltiplos remetentes
+
+> **Nota**: O projeto usa `gemini-1.5-flash` por padrão (rápido e gratuito). Veja `MODELOS-GEMINI.md` para trocar para `gemini-1.5-pro`.
 
 ## 🚀 Pré-requisitos
 
@@ -103,7 +105,7 @@ Para rodar o resumo diariamente de forma automática:
 npm run cron
 ```
 
-Por padrão, executa **todos os dias às 7:00 AM**.
+Por padrão, executa **todos os dias às 9:00 AM**.
 
 #### Executar agora + agendar:
 

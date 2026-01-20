@@ -6,7 +6,9 @@ dotenv.config();
 export class GeminiSummarizer {
   constructor(apiKey = process.env.GEMINI_API_KEY) {
     this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+    // Usando Gemini 1.5 Flash (rápido e eficiente)
+    // Alternativa: 'gemini-1.5-pro' para resultados ainda melhores
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-3-flash-preview' });
   }
 
   /**
