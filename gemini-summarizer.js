@@ -39,10 +39,20 @@ Mantenha o resumo objetivo e focado nas informações relevantes.
     try {
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
-      return response.text();
+      const text = response.text();
+      
+      if (!text || text.trim().length === 0) {
+        console.warn('⚠️  Gemini retornou resposta vazia');
+        return `Resumo não disponível para: ${email.subject}`;
+      }
+      
+      return text;
     } catch (error) {
       console.error('❌ Erro ao resumir com Gemini:', error.message);
-      return `Erro ao gerar resumo: ${error.message}`;
+      if (error.message.includes('SAFETY')) {
+        return `Erro: Conteúdo bloqueado por filtros de segurança para ${email.subject}`;
+      }
+      return `Erro ao gerar resumo para ${email.subject}: ${error.message}`;
     }
   }
 
@@ -108,7 +118,16 @@ Formato sugerido:
     try {
       const result = await this.model.generateContent(consolidatedPrompt);
       const response = await result.response;
-      return response.text();
+      const text = response.text();
+      
+      if (!text || text.trim().length === 0) {
+        console.warn('⚠️  Gemini retornou resumo consolidado vazio, usando resumos individuais');
+        return emailSummaries.map((item, i) => 
+          `**${i + 1}. ${item.subject}**\n${item.summary}`
+        ).join('\n\n---\n\n');
+      }
+      
+      return text;
     } catch (error) {
       console.error('❌ Erro ao gerar resumo consolidado:', error.message);
       // Retorna resumos individuais em caso de erro

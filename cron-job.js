@@ -36,7 +36,13 @@ async function executeSummary() {
     console.log(`📨 Processando ${emails.length} email(s)...`);
 
     // Gera resumo
+    console.log('🤖 Chamando Gemini para gerar resumo...');
     const summary = await geminiSummarizer.summarizeMultipleEmails(emails);
+    console.log(`✅ Resumo gerado (${summary.length} caracteres)`);
+    
+    // Debug: mostra preview do resumo
+    console.log('📝 Preview do resumo:');
+    console.log(summary.substring(0, 200) + '...');
 
     // Envia por email
     if (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD && process.env.EMAIL_RECIPIENT) {
@@ -96,7 +102,7 @@ function setupCronJob() {
   
   // Agenda para executar todos os dias às 9:00
   // Formato: segundo minuto hora dia mês dia-da-semana
-  const schedule = '0 9 * * *'; // 9:00 AM todos os dias
+  const schedule = '0 7 * * *'; // 9:00 AM todos os dias
   
   console.log(`   Agendamento: Diariamente às 9:00 AM`);
   console.log(`   Cron pattern: ${schedule}\n`);
