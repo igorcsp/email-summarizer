@@ -103,7 +103,7 @@ Para rodar o resumo diariamente de forma automática:
 npm run cron
 ```
 
-Por padrão, executa **todos os dias às 9:00 AM**.
+Por padrão, executa **todos os dias às 7:00 AM**.
 
 #### Executar agora + agendar:
 
@@ -227,4 +227,4 @@ Sinta-se à vontade para abrir issues e pull requests!
 
 ---
 
-Feito com ❤️ usando Node.js, Gmail API e Gemini AI
+Feito usando Node.js, Gmail API e Gemini AI
