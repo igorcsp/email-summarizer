@@ -2,6 +2,7 @@ import cron from 'node-cron';
 import dotenv from 'dotenv';
 import { GmailClient } from './gmail-client.js';
 import { GeminiSummarizer } from './gemini-summarizer.js';
+import { EmailSender } from './email-sender.js';
 import fs from 'fs/promises';
 
 dotenv.config();
@@ -36,6 +37,13 @@ async function executeSummary() {
 
     // Gera resumo
     const summary = await geminiSummarizer.summarizeMultipleEmails(emails);
+
+    // Envia por email
+    if (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD && process.env.EMAIL_RECIPIENT) {
+      console.log('📧 Enviando resumo por email...');
+      const emailSender = new EmailSender();
+      await emailSender.sendSummary(summary, emails);
+    }
 
     // Salva resultado
     const timestamp = new Date().toISOString().split('T')[0];
@@ -88,7 +96,7 @@ function setupCronJob() {
   
   // Agenda para executar todos os dias às 9:00
   // Formato: segundo minuto hora dia mês dia-da-semana
-  const schedule = '0 7 * * *'; // 9:00 AM todos os dias
+  const schedule = '0 9 * * *'; // 9:00 AM todos os dias
   
   console.log(`   Agendamento: Diariamente às 9:00 AM`);
   console.log(`   Cron pattern: ${schedule}\n`);

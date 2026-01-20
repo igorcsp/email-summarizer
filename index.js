@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { GmailClient } from './gmail-client.js';
 import { GeminiSummarizer } from './gemini-summarizer.js';
+import { EmailSender } from './email-sender.js';
 
 dotenv.config();
 
@@ -64,6 +65,15 @@ async function main() {
     console.log('='.repeat(80) + '\n');
     console.log(summary);
     console.log('\n' + '='.repeat(80));
+
+    // Envia por email
+    if (process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD && process.env.EMAIL_RECIPIENT) {
+      console.log('\n📧 Enviando resumo por email...');
+      const emailSender = new EmailSender();
+      await emailSender.sendSummary(summary, emails);
+    } else {
+      console.log('\n⚠️  Envio de email não configurado (verifique .env)');
+    }
 
     // Salva em arquivo
     const fs = await import('fs/promises');

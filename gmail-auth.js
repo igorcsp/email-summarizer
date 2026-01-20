@@ -20,12 +20,22 @@ export class GmailAuthenticator {
 
   async getAuthenticatedClient() {
     try {
-      // Tenta carregar token salvo
+      // Primeiro tenta usar token de variável de ambiente (para deploy)
+      if (process.env.GMAIL_TOKEN) {
+        const token = JSON.parse(process.env.GMAIL_TOKEN);
+        this.oauth2Client.setCredentials(token);
+        console.log('✅ Token carregado de variável de ambiente');
+        return this.oauth2Client;
+      }
+
+      // Depois tenta carregar token salvo
       const token = await fs.readFile(TOKEN_PATH, 'utf-8');
       this.oauth2Client.setCredentials(JSON.parse(token));
+      console.log('✅ Token carregado de arquivo local');
       return this.oauth2Client;
     } catch (error) {
       // Se não existir token, faz autenticação
+      console.log('⚠️  Nenhum token encontrado, iniciando autenticação...');
       return await this.authenticate();
     }
   }
@@ -51,6 +61,9 @@ export class GmailAuthenticator {
             
             // Salva o token para uso futuro
             await fs.writeFile(TOKEN_PATH, JSON.stringify(tokens));
+            console.log('✅ Token salvo em token.json');
+            console.log('\n📋 Para deploy, adicione esta variável de ambiente:');
+            console.log(`GMAIL_TOKEN='${JSON.stringify(tokens)}'`);
             
             resolve(this.oauth2Client);
           }
