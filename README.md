@@ -12,7 +12,7 @@ Agente inteligente que lê seus emails de newsletters e notícias e gera resumos
 - ✅ Execução agendada diária com node-cron
 - ✅ Suporte a múltiplos remetentes
 
-> **Nota**: O projeto usa `gemini-1.5-flash` por padrão (rápido e gratuito). Veja `MODELOS-GEMINI.md` para trocar para `gemini-1.5-pro`.
+> **Nota**: O projeto usa `gemini-3-flash-preview` por padrão (rápido e gratuito).
 
 ## 🚀 Pré-requisitos
 
