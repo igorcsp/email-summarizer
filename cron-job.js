@@ -102,7 +102,7 @@ function setupCronJob() {
   
   // Agenda para executar todos os dias às 9:00
   // Formato: segundo minuto hora dia mês dia-da-semana
-  const schedule = '0 7 * * *'; // 9:00 AM todos os dias
+  const schedule = '* */12 * * 1-5'; // 9:00 AM todos os dias
   
   console.log(`   Agendamento: Diariamente às 9:00 AM`);
   console.log(`   Cron pattern: ${schedule}\n`);
